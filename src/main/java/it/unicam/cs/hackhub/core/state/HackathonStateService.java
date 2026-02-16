@@ -1,0 +1,28 @@
+package it.unicam.cs.hackhub.core.state;
+
+import it.unicam.cs.hackhub.common.HackathonState;
+import java.util.EnumMap;
+import java.util.Map;
+
+public class HackathonStateService {
+    private final Map<HackathonState, HackathonStateHandler> handlers;
+
+    public HackathonStateService() {
+        this.handlers = new EnumMap<>(HackathonState.class);
+        handlers.put(HackathonState.REGISTRATION, new RegistrationStateHandler());
+        handlers.put(HackathonState.RUNNING, new RunningStateHandler());
+        handlers.put(HackathonState.EVALUATION, new EvaluationStateHandler());
+        handlers.put(HackathonState.CLOSED, new ClosedStateHandler());
+    }
+
+    public HackathonStateHandler resolve(HackathonState state) {
+        return handlers.get(state);
+    }
+
+    /**
+     * Returns the handler for the given state (alias for resolve).
+     */
+    public HackathonStateHandler getHandler(HackathonState state) {
+        return resolve(state);
+    }
+}
