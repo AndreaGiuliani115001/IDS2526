@@ -1,62 +1,176 @@
-# HackHub: Sistema di Gestione Hackathon
+# 🚀 HackHub
 
-**HackHub** è una REST API sviluppata con **Spring Boot** per la gestione completa degli hackathon. Il sistema supporta l'intero ciclo di vita dell'evento: registrazione utenti, iscrizione dei team, invio dei progetti, valutazione da parte dei giudici e chiusura dell'evento.
+> **Piattaforma per la gestione completa del ciclo di vita di un Hackathon**
 
----
+![Java](https://img.shields.io/badge/Java-17-blue?logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.10-brightgreen?logo=spring)
+![Maven](https://img.shields.io/badge/Maven-3.9-red?logo=apachemaven)
+![H2 Database](https://img.shields.io/badge/Database-H2-lightgrey?logo=h2)
+![JPA](https://img.shields.io/badge/JPA-Hibernate-orange?logo=hibernate)
 
-## Stack Tecnologico
-* **Linguaggio & Framework**: Java 17 e Spring Boot 3.5.10.
-* **Build Tool**: Maven.
-* **Persistenza**: Spring Data JPA con database **H2** (basato su file in `./data/hackhubdb`).
-* **Librerie**: **Lombok** per la riduzione del codice boilerplate.
-* **Mapping**: Mapping manuale Entity-to-DTO tramite un'interfaccia personalizzata `ModelMapper`.
-
----
-
-## Architettura e Design Pattern
-Il progetto adotta un'architettura **Layered (a strati)** con una netta separazione delle responsabilità tra i package `controller`, `service` e `repository`.
-
-
-
-### Pattern Implementati
-1. **State Pattern**: Il ciclo di vita dell'hackathon è gestito tramite quattro stati: `REGISTRATION`, `RUNNING`, `EVALUATION` e `CLOSED`. Ogni stato ha un handler dedicato che definisce le operazioni consentite (es. iscrizioni consentite solo in `REGISTRATION`).
-2. **Factory & Adapter Pattern**: Supportano le integrazioni esterne tramite la `ExternalAdapterFactory`. Sono disponibili adattatori per pagamenti e calendari (MOCK, STRIPE, GOOGLE_CALENDAR), permettendo di scambiare implementazioni reali con mock durante lo sviluppo.
-
-
+Progetto sviluppato per il corso di **Ingegneria del Software – A.A. 2025/2026**
+Università degli Studi di Camerino
 
 ---
 
-## Guida all'Avvio
-* **Esecuzione**: Utilizzare il comando `mvn spring-boot:run`.
-* **Porta**: Il server è in ascolto sulla porta **8081**.
-* **H2 Console**: Disponibile all'indirizzo `http://localhost:8081/h2-console` per l'ispezione del database.
-* **JDBC URL**: `jdbc:h2:file:./data/hackhubdb`.
+## 🎯 Descrizione
+
+**HackHub** è una piattaforma backend sviluppata in Java e Spring Boot per la gestione strutturata di hackathon.
+
+Il sistema copre l’intero ciclo di vita di un evento:
+
+* creazione hackathon
+* registrazione team
+* invio submission
+* valutazione progetti
+* proclamazione vincitore
+* integrazione con servizi esterni (Calendar e Payment)
+
+L’architettura è progettata per essere **modulare, estendibile, testabile e conforme ai principi SOLID**.
 
 ---
 
-## Panoramica delle API
-Tutti gli endpoint utilizzano il prefisso `/api/v1`.
+## 🏗️ Architettura
 
-| Endpoint | Metodo | Descrizione |
-| :--- | :--- | :--- |
-| `/users/register` | `POST` | Registrazione di un nuovo utente. |
-| `/users/login` | `POST` | Autenticazione semplice (restituisce l'oggetto User). |
-| `/teams/hackathon/{id}/register` | `POST` | Iscrizione di un team a un hackathon specifico. |
-| `/submissions` | `POST` | Invio del progetto finale (Stato: RUNNING). |
-| `/evaluations` | `POST` | Inserimento della valutazione da parte dei giudici (Stato: EVALUATION). |
+Il sistema segue una struttura **Layered Architecture**:
 
----
+* **Presentation Layer** → Controller REST (`/api/v1`)
+* **Application Layer** → Service + gestione stati
+* **Domain Layer** → Entità e regole di business
+* **Infrastructure Layer** → Persistenza H2 file-based
 
-## Regole di Business e Sicurezza
-* **Autenticazione**: Semplice controllo delle credenziali senza token o sessioni.
-* **Sicurezza**: Le password sono attualmente codificate in **Base64** (solo per sviluppo).
-* **Autorizzazione**: I ruoli (`ADMIN`, `JUDGE`, ecc.) sono presenti nel modello ma non ancora forzati a livello di endpoint.
-* **Integrità**: Username ed email devono essere univoci alla registrazione.
+Il dominio è modellato per garantire:
+
+* isolamento della logica di business
+* separazione tra dominio e infrastruttura
+* alta coesione e basso accoppiamento
 
 ---
 
-## Roadmap di Sviluppo
-1. **Security**: Implementazione di Spring Security e hashing **BCrypt** per le password.
-2. **Logica Vincitore**: Sviluppo dell'algoritmo per calcolare e assegnare il vincitore dopo le valutazioni.
-3. **Validazione**: Controllo per impedire a un utente di appartenere a più team contemporaneamente.
-4. **Testing**: Introduzione di Unit e Integration Test con JUnit e Mockito.
+## 🧠 Design Pattern Implementati
+
+* **State Pattern** → gestione del ciclo di vita dell’hackathon (REGISTRATION, RUNNING, EVALUATION, CLOSED)
+* **Factory + Adapter Pattern** → integrazione servizi esterni (Calendar e Payment)
+* **Singleton** → gestione istanze condivise dove necessario
+
+---
+
+## 👥 Attori del Sistema
+
+* **Visitatore** → consulta hackathon pubblici
+* **Utente Registrato** → crea o partecipa a un team
+* **Membro Team** → iscrive team e invia submission
+* **Mentore** → supporta team e propone call
+* **Giudice** → valuta submission
+* **Organizzatore** → crea hackathon e proclama vincitore
+
+---
+
+## ⚙️ Funzionalità Principali
+
+* Gestione multi-hackathon
+* Controllo stati tramite logica applicativa
+* Vincolo: un utente può appartenere a un solo team
+* Valutazione con punteggio numerico (0–10)
+* Integrazione Calendar Service (call mentore-team)
+* Integrazione Payment Service (erogazione premio)
+
+---
+
+## 📁 Struttura del Repository
+
+```
+hackhub/
+│
+├── src/main/java/it/unicam/cs/hackhub/
+│   ├── common/        # Astrazioni condivise
+│   ├── core/          # Controller, Service, State Pattern
+│   └── model/         # Entity JPA, DTO, Mapper
+│
+├── dataBase/          # Database H2 (file-based)
+├── documentazioni/    # Documentazione e diagrammi UML
+├── pom.xml
+├── LICENSE
+├──.gitignore
+└── README.md
+```
+
+---
+
+## 📊 Diagrammi e Modellazione
+
+Il progetto include:
+
+* Diagramma delle Classi UML
+* Diagrammi di Sequenza
+* Modellazione del dominio
+* Diagrammi architetturali
+* State Diagram del ciclo di vita
+
+
+---
+
+## 🛠️ Avvio del Progetto
+
+### Configurazione Database (H2 file-based)
+
+Nel file `application.properties`:
+
+```properties
+spring.datasource.url=jdbc:h2:file:./data/hackhubdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=update
+spring.h2.console.enabled=true
+```
+
+### Compilazione ed esecuzione
+
+```bash
+mvn clean install
+mvn spring-boot:run
+```
+
+---
+
+## 🌍 Accesso
+
+* Server: `http://localhost:8081`
+* API Base Path: `http://localhost:8081/api/v1`
+* H2 Console: `http://localhost:8081/h2-console`
+
+---
+
+## 🧪 Testing
+
+* Unit Test → servizi e state handler
+* Integration Test → repository JPA e controller REST
+* Mock Adapter → simulazione servizi esterni
+
+Strumenti utilizzati:
+* JUnit 5
+* Mockito
+
+---
+
+## 📦 Dipendenze Principali
+
+* Spring Boot Web
+* Spring Data JPA
+* Hibernate
+* H2 Database
+* Lombok
+* Maven
+
+---
+
+## 👨‍💻 Autori
+
+* Andrea Giuliani – 115001
+* Juliano Sinaj – 120007
+* Giovanni Luongo – 118863
+
+---
+
+Se vuoi posso farti una versione ancora più “pulita e minimal GitHub style” oppure una leggermente più “da 30 e lode accademica”.
