@@ -1,0 +1,12 @@
+Le API seguono lo standard REST e utilizzano il prefisso `/api/v1` per il versionamento.  
+Di seguito sono elencati gli endpoint principali implementati nel sistema:
+
+| Metodo | Endpoint                              | Descrizione                                                                 |
+|--------|----------------------------------------|-----------------------------------------------------------------------------|
+| POST   | /users/register                        | Registra un nuovo utente nel sistema.                                      |
+| POST   | /users/login                           | Effettua l'autenticazione (Base64 placeholder).                             |
+| GET    | /hackathons                            | Recupera la lista di tutti gli hackathon disponibili.                       |
+| POST   | /hackathons                            | Crea un nuovo evento (riservato a ruoli autorizzati).                       |
+| POST   | /teams/hackathon/{id}/register         | Registra un team a un hackathon specifico (Stato: REGISTRATION).            |
+| POST   | /submissions                           | Invia il progetto finale (Stato: RUNNING).                                   |
+| POST   | /evaluations                           | Inserisce la valutazione di una sottomissione (Stato: EVALUATION).           |

@@ -75,7 +75,6 @@ public class Hackathon extends Document {
         this.teams = new ArrayList<>();
     }
 
-    // Getters dhe Setters (Setters janë të nevojshëm për JPA)
     public String getName() {
         return name;
     }

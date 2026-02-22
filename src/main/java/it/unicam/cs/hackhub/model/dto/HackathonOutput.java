@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.List;
 
 public class HackathonOutput extends OutputDTO {
-    private final String id; // Shtuam kete
+    private final String id;
     private final String name;
     private final String description;
     private final String rules;
@@ -23,7 +23,7 @@ public class HackathonOutput extends OutputDTO {
             Instant startDate, Instant endDate, String location, Double prize,
             Integer maxTeamSize, String judge, List<String> mentors,
             List<String> submissions, List<String> team) {
-        this.id = id; // Shtuam kete
+        this.id = id;
         this.name = name;
         this.description = description;
         this.rules = rules;
@@ -39,7 +39,7 @@ public class HackathonOutput extends OutputDTO {
         this.team = team;
     }
 
-    public String getId() { // Shtuam kete
+    public String getId() {
         return id;
     }
 

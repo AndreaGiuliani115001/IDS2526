@@ -38,7 +38,7 @@ public class EvaluationStateHandler implements HackathonStateHandler {
     }
 
     @Override
-    public void submitEvaluation(Hackathon hackathon, Evaluation evaluation) throws ServiceException {
-        // Allowed during evaluation phase; persistence is handled by EvaluationService
+    public void submitEvaluation(Hackathon hackathon, Evaluation evaluation)
+            throws ServiceException {
     }
 }

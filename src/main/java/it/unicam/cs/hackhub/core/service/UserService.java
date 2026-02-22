@@ -21,8 +21,6 @@ public class UserService implements Service<User, UserInput, UserOutput> {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    // --- AUTHENTICATION & REGISTRATION ---
-
     /**
      * Registers a new user. Throws INVALID_INPUT if username or email already
      * exists.
@@ -54,8 +52,6 @@ public class UserService implements Service<User, UserInput, UserOutput> {
         }
         return userMapper.toOutDto(user);
     }
-
-    // --- MILESTONE CRUD BASE COMPLETO ---
 
     @Override
     public UserOutput create(UserInput input) throws ServiceException {
