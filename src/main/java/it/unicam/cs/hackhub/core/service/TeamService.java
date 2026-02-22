@@ -12,11 +12,14 @@ import it.unicam.cs.hackhub.model.mapper.TeamMapper;
 import it.unicam.cs.hackhub.core.repository.TeamRepository;
 import it.unicam.cs.hackhub.core.repository.UserRepository;
 import it.unicam.cs.hackhub.core.state.HackathonStateService;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@org.springframework.stereotype.Service
+@RequiredArgsConstructor
 public class TeamService implements Service<Team, TeamInput, TeamOutput> {
 
     private final TeamRepository teamRepository;
@@ -24,15 +27,6 @@ public class TeamService implements Service<Team, TeamInput, TeamOutput> {
     private final HackathonStateService stateService;
     private final HackathonService hackathonService;
     private final TeamMapper teamMapper;
-
-    public TeamService(TeamRepository teamRepository, UserRepository userRepository,
-                       HackathonStateService stateService, HackathonService hackathonService, TeamMapper teamMapper) {
-        this.teamRepository = teamRepository;
-        this.userRepository = userRepository;
-        this.stateService = stateService;
-        this.hackathonService = hackathonService;
-        this.teamMapper = teamMapper;
-    }
 
     @Override
     public TeamOutput create(TeamInput input) throws ServiceException {

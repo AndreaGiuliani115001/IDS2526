@@ -5,9 +5,11 @@ import it.unicam.cs.hackhub.model.dto.TeamInput;
 import it.unicam.cs.hackhub.model.dto.TeamOutput;
 import it.unicam.cs.hackhub.model.entity.Team;
 import it.unicam.cs.hackhub.model.entity.User;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class TeamMapper implements ModelMapper<Team, TeamInput, TeamOutput> {
 
     @Override

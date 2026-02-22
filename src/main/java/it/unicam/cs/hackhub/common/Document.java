@@ -1,15 +1,19 @@
 package it.unicam.cs.hackhub.common;
 
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
+
 import java.time.Instant;
 
+@MappedSuperclass
 public abstract class Document {
+    @Id
     private String id;
     private Instant createdAt;
     private Instant updatedAt;
     private Instant deletedAt;
     private Boolean active;
 
-    // Default constructor needed for many mapping/DB frameworks
     protected Document() {
     }
 

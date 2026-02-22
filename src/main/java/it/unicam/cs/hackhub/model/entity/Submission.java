@@ -1,19 +1,35 @@
 package it.unicam.cs.hackhub.model.entity;
 
 import it.unicam.cs.hackhub.common.Document;
+import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "submissions")
 public class Submission extends Document {
-    private final String name;
-    private final String description;
-    private final Instant date;
-    private final List<Attachment> attachments;
-    private final Team team;
-    private final Hackathon hackathon;
+    private String name;
+    private String description;
+    private Instant date;
+
+    @OneToMany
+    private List<Attachment> attachments;
+
+    @ManyToOne
+    private Team team;
+
+    @ManyToOne
+    private Hackathon hackathon;
+
+    @OneToOne(mappedBy = "submission", cascade = CascadeType.ALL)
     private Evaluation evaluation;
+
+    public Submission() {
+        super();
+        this.attachments = new ArrayList<>();
+    }
 
     public Submission(String name, String description, Instant date, Team team, Hackathon hackathon) {
         super();

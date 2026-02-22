@@ -7,10 +7,13 @@ import it.unicam.cs.hackhub.model.dto.HackathonOutput;
 import it.unicam.cs.hackhub.model.entity.Hackathon;
 import it.unicam.cs.hackhub.model.entity.User;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class HackathonMapper implements ModelMapper<Hackathon, HackathonInput, HackathonOutput> {
 
     @Override
@@ -41,6 +44,7 @@ public class HackathonMapper implements ModelMapper<Hackathon, HackathonInput, H
         List<String> submissionIds = entity.getSubmissions().stream().map(s -> s.getId()).collect(Collectors.toList());
         List<String> teamIds = entity.getTeams().stream().map(t -> t.getId()).collect(Collectors.toList());
         return new HackathonOutput(
+                entity.getId(),
                 entity.getName(),
                 entity.getDescription(),
                 entity.getRules(),

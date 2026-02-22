@@ -1,7 +1,7 @@
 package it.unicam.cs.hackhub.core.factory;
 
 /**
- * Family of external systems (e.g. payment, calendar).
+ * Family of external system (payment, calendar, etc.).
  */
 public enum ExternalSystemFamily {
     PAYMENT,

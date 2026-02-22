@@ -1,28 +1,30 @@
 package it.unicam.cs.hackhub.core.state;
 
 import it.unicam.cs.hackhub.common.HackathonState;
-import java.util.EnumMap;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import java.util.Map;
 
+/**
+ * Resolves the correct state handler for a given hackathon state using
+ * Map-based lookup (beans provided by {@link HackathonStateConfig}).
+ */
+@Service
+@RequiredArgsConstructor
 public class HackathonStateService {
-    private final Map<HackathonState, HackathonStateHandler> handlers;
 
-    public HackathonStateService() {
-        this.handlers = new EnumMap<>(HackathonState.class);
-        handlers.put(HackathonState.REGISTRATION, new RegistrationStateHandler());
-        handlers.put(HackathonState.RUNNING, new RunningStateHandler());
-        handlers.put(HackathonState.EVALUATION, new EvaluationStateHandler());
-        handlers.put(HackathonState.CLOSED, new ClosedStateHandler());
-    }
-
-    public HackathonStateHandler resolve(HackathonState state) {
-        return handlers.get(state);
-    }
+    private final Map<HackathonState, HackathonStateHandler> stateHandlerMap;
 
     /**
-     * Returns the handler for the given state (alias for resolve).
+     * Returns the handler for the given state (dynamic lookup).
      */
     public HackathonStateHandler getHandler(HackathonState state) {
-        return resolve(state);
+        return stateHandlerMap.get(state);
+    }
+
+    /** Alias for {@link #getHandler(HackathonState)}. */
+    public HackathonStateHandler resolve(HackathonState state) {
+        return getHandler(state);
     }
 }

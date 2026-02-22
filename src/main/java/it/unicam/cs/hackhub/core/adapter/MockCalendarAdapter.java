@@ -1,5 +1,7 @@
 package it.unicam.cs.hackhub.core.adapter;
 
+import org.springframework.stereotype.Component;
+
 import java.time.Instant;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -7,6 +9,7 @@ import java.util.logging.Logger;
 /**
  * In-memory mock implementation of CalendarAdapter for testing Iteration 3.
  */
+@Component
 public class MockCalendarAdapter implements CalendarAdapter {
     private static final Logger logger = Logger.getLogger(MockCalendarAdapter.class.getName());
 

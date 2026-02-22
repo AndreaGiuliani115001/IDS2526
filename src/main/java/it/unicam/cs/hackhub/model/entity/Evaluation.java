@@ -1,12 +1,23 @@
 package it.unicam.cs.hackhub.model.entity;
 
 import it.unicam.cs.hackhub.common.Document;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "evaluations")
 public class Evaluation extends Document {
-    private final Submission submission;
-    private final User judge;
-    private final Integer score;
-    private final String description;
+    @OneToOne
+    private Submission submission;
+
+    @ManyToOne
+    private User judge;
+
+    private Integer score;
+    private String description;
+
+    public Evaluation() {
+        super();
+    }
 
     public Evaluation(Submission submission, User judge, Integer score, String description) {
         super();

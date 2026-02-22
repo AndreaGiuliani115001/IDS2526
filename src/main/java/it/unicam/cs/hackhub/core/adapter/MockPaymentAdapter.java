@@ -1,10 +1,13 @@
 package it.unicam.cs.hackhub.core.adapter;
 
+import org.springframework.stereotype.Component;
+
 import java.util.logging.Logger;
 
 /**
  * In-memory mock implementation of PaymentAdapter for testing Iteration 3.
  */
+@Component
 public class MockPaymentAdapter implements PaymentAdapter {
     private static final Logger logger = Logger.getLogger(MockPaymentAdapter.class.getName());
 

@@ -8,20 +8,18 @@ import it.unicam.cs.hackhub.model.dto.UserOutput;
 import it.unicam.cs.hackhub.model.entity.User;
 import it.unicam.cs.hackhub.model.mapper.UserMapper;
 import it.unicam.cs.hackhub.core.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@org.springframework.stereotype.Service
+@RequiredArgsConstructor
 public class UserService implements Service<User, UserInput, UserOutput> {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-    }
 
     // --- AUTHENTICATION & REGISTRATION ---
 

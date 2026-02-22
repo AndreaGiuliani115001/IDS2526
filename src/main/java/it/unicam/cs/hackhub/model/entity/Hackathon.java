@@ -2,28 +2,57 @@ package it.unicam.cs.hackhub.model.entity;
 
 import it.unicam.cs.hackhub.common.Document;
 import it.unicam.cs.hackhub.common.HackathonState;
+import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "hackathons")
 public class Hackathon extends Document {
-    private final String name;
-    private final String description;
-    private final String rules;
-    private final Instant registrationDeadline;
-    private final Instant startDate;
-    private final Instant endDate;
-    private final String location;
-    private final Double prize;
-    private final Integer maxTeamSize;
+
+    private String name;
+
+    @Column(length = 1000)
+    private String description;
+
+    @Column(length = 1000)
+    private String rules;
+
+    private Instant registrationDeadline;
+    private Instant startDate;
+    private Instant endDate;
+    private String location;
+    private Double prize;
+    private Integer maxTeamSize;
+
+    @Enumerated(EnumType.STRING)
     private HackathonState state;
-    private final User organizer;
-    private final User judge;
-    private final List<User> mentors;
-    private final List<Submission> submissions;
-    private final List<Team> teams;
+
+    @ManyToOne
+    private User organizer;
+
+    @ManyToOne
+    private User judge;
+
+    @ManyToMany
+    private List<User> mentors;
+
+    @OneToMany(mappedBy = "hackathon")
+    private List<Submission> submissions;
+
+    @OneToMany
+    @JoinColumn(name = "hackathon_id")
+    private List<Team> teams;
+
+    @OneToOne
+    @JoinColumn(name = "winner_id")
     private Team winner;
+
+    public Hackathon() {
+        super();
+    }
 
     public Hackathon(String name, String description, String rules, Instant registrationDeadline,
             Instant startDate, Instant endDate, String location, Double prize,
@@ -46,40 +75,77 @@ public class Hackathon extends Document {
         this.teams = new ArrayList<>();
     }
 
+    // Getters dhe Setters (Setters janë të nevojshëm për JPA)
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getRules() {
         return rules;
+    }
+
+    public void setRules(String rules) {
+        this.rules = rules;
     }
 
     public Instant getRegistrationDeadline() {
         return registrationDeadline;
     }
 
+    public void setRegistrationDeadline(Instant registrationDeadline) {
+        this.registrationDeadline = registrationDeadline;
+    }
+
     public Instant getStartDate() {
         return startDate;
+    }
+
+    public void setStartDate(Instant startDate) {
+        this.startDate = startDate;
     }
 
     public Instant getEndDate() {
         return endDate;
     }
 
+    public void setEndDate(Instant endDate) {
+        this.endDate = endDate;
+    }
+
     public String getLocation() {
         return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Double getPrize() {
         return prize;
     }
 
+    public void setPrize(Double prize) {
+        this.prize = prize;
+    }
+
     public Integer getMaxTeamSize() {
         return maxTeamSize;
+    }
+
+    public void setMaxTeamSize(Integer maxTeamSize) {
+        this.maxTeamSize = maxTeamSize;
     }
 
     public HackathonState getState() {
@@ -106,15 +172,15 @@ public class Hackathon extends Document {
         return submissions;
     }
 
+    public void setSubmissions(List<Submission> submissions) {
+        this.submissions = submissions;
+    }
+
     public List<Team> getTeams() {
         return teams;
     }
 
-    public Team getWinner() {
-        return winner;
-    }
-
-    public void setWinner(Team winner) {
-        this.winner = winner;
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
     }
 }

@@ -11,11 +11,14 @@ import it.unicam.cs.hackhub.model.entity.Team;
 import it.unicam.cs.hackhub.model.mapper.SubmissionMapper;
 import it.unicam.cs.hackhub.core.repository.SubmissionRepository;
 import it.unicam.cs.hackhub.core.state.HackathonStateService;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@org.springframework.stereotype.Service
+@RequiredArgsConstructor
 public class SubmissionService implements Service<Submission, SubmissionInput, SubmissionOutput> {
 
     private final SubmissionRepository submissionRepository;
@@ -23,16 +26,6 @@ public class SubmissionService implements Service<Submission, SubmissionInput, S
     private final HackathonService hackathonService;
     private final HackathonStateService stateService;
     private final SubmissionMapper submissionMapper;
-
-    public SubmissionService(SubmissionRepository submissionRepository, TeamService teamService,
-                             HackathonService hackathonService, HackathonStateService stateService,
-                             SubmissionMapper submissionMapper) {
-        this.submissionRepository = submissionRepository;
-        this.teamService = teamService;
-        this.hackathonService = hackathonService;
-        this.stateService = stateService;
-        this.submissionMapper = submissionMapper;
-    }
 
     @Override
     public SubmissionOutput create(SubmissionInput input) throws ServiceException {

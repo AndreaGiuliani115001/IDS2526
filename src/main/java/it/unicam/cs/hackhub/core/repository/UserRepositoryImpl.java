@@ -3,9 +3,12 @@ package it.unicam.cs.hackhub.core.repository;
 import it.unicam.cs.hackhub.common.ServiceException;
 import it.unicam.cs.hackhub.model.entity.User;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
 public class UserRepositoryImpl extends InMemoryRepository<User, String> implements UserRepository {
 
     private final java.util.Map<String, User> byUsername = new ConcurrentHashMap<>();

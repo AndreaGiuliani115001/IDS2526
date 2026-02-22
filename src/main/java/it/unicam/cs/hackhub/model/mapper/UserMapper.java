@@ -5,7 +5,9 @@ import it.unicam.cs.hackhub.common.Role;
 import it.unicam.cs.hackhub.model.dto.UserInput;
 import it.unicam.cs.hackhub.model.dto.UserOutput;
 import it.unicam.cs.hackhub.model.entity.User;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapper implements ModelMapper<User, UserInput, UserOutput> {
 
     @Override
@@ -27,6 +29,7 @@ public class UserMapper implements ModelMapper<User, UserInput, UserOutput> {
     @Override
     public UserOutput toOutDto(User entity) {
         return new UserOutput(
+                entity.getId(),
                 entity.getName(),
                 entity.getSurname(),
                 entity.getUsername(),

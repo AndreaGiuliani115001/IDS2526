@@ -10,26 +10,24 @@ import it.unicam.cs.hackhub.model.entity.User;
 import it.unicam.cs.hackhub.model.mapper.HackathonMapper;
 import it.unicam.cs.hackhub.core.repository.HackathonRepository;
 import it.unicam.cs.hackhub.core.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@org.springframework.stereotype.Service
+@RequiredArgsConstructor
 public class HackathonService implements Service<Hackathon, HackathonInput, HackathonOutput> {
 
     private final HackathonRepository hackathonRepository;
     private final UserRepository userRepository;
     private final HackathonMapper hackathonMapper;
 
-    public HackathonService(HackathonRepository hackathonRepository, UserRepository userRepository, HackathonMapper hackathonMapper) {
-        this.hackathonRepository = hackathonRepository;
-        this.userRepository = userRepository;
-        this.hackathonMapper = hackathonMapper;
-    }
-
     @Override
     public HackathonOutput create(HackathonInput input) throws ServiceException {
-        User organizer = userRepository.findById(input.getJudge()).orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND, "Organizer/judge not found"));
+        User organizer = userRepository.findById(input.getJudge())
+                .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND, "Organizer/judge not found"));
         User judge = organizer;
         List<User> mentors = resolveUserIds(input.getMentors());
         String id = UUID.randomUUID().toString();
@@ -40,7 +38,8 @@ public class HackathonService implements Service<Hackathon, HackathonInput, Hack
 
     @Override
     public HackathonOutput getById(String id) throws ServiceException {
-        Hackathon entity = hackathonRepository.findById(id).orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND, "Hackathon not found: " + id));
+        Hackathon entity = hackathonRepository.findById(id)
+                .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND, "Hackathon not found: " + id));
         return hackathonMapper.toOutDto(entity);
     }
 
@@ -51,7 +50,8 @@ public class HackathonService implements Service<Hackathon, HackathonInput, Hack
 
     @Override
     public HackathonOutput update(String id, HackathonInput input) throws ServiceException {
-        Hackathon existing = hackathonRepository.findById(id).orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND, "Hackathon not found: " + id));
+        Hackathon existing = hackathonRepository.findById(id)
+                .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND, "Hackathon not found: " + id));
         hackathonMapper.updateEntity(input, existing);
         hackathonRepository.update(id, existing);
         return hackathonMapper.toOutDto(existing);
@@ -63,13 +63,16 @@ public class HackathonService implements Service<Hackathon, HackathonInput, Hack
     }
 
     public Hackathon getEntityById(String id) throws ServiceException {
-        return hackathonRepository.findById(id).orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND, "Hackathon not found: " + id));
+        return hackathonRepository.findById(id)
+                .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND, "Hackathon not found: " + id));
     }
 
     private List<User> resolveUserIds(List<String> ids) throws ServiceException {
-        if (ids == null || ids.isEmpty()) return java.util.Collections.emptyList();
+        if (ids == null || ids.isEmpty())
+            return java.util.Collections.emptyList();
         return ids.stream()
-                .map(userId -> userRepository.findById(userId).orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND, "User not found: " + userId)))
+                .map(userId -> userRepository.findById(userId)
+                        .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND, "User not found: " + userId)))
                 .collect(Collectors.toList());
     }
 }

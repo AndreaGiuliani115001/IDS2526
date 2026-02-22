@@ -1,29 +1,29 @@
 package it.unicam.cs.hackhub.core.repository;
 
-import it.unicam.cs.hackhub.common.ErrorCode;
 import it.unicam.cs.hackhub.common.Repository;
 import it.unicam.cs.hackhub.common.ServiceException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * In-memory implementation of {@link Repository}. Uses a map for storage.
- * Subclasses must provide ID extraction from the entity.
+ * In-memory implementation base for repositories. Subclass and implement
+ * {@link #getId(Object)} to provide entity id.
  */
 public abstract class InMemoryRepository<E, ID> implements Repository<E, ID> {
 
-    protected final Map<ID, E> store = new ConcurrentHashMap<>();
+    private final java.util.Map<ID, E> store = new ConcurrentHashMap<>();
 
     protected abstract ID getId(E entity);
 
     @Override
     public E save(E entity) throws ServiceException {
         ID id = getId(entity);
-        store.put(id, entity);
+        if (id != null) {
+            store.put(id, entity);
+        }
         return entity;
     }
 
@@ -39,17 +39,11 @@ public abstract class InMemoryRepository<E, ID> implements Repository<E, ID> {
 
     @Override
     public void delete(ID id) throws ServiceException {
-        if (!store.containsKey(id)) {
-            throw new ServiceException(ErrorCode.NOT_FOUND, "Entity not found: " + id);
-        }
         store.remove(id);
     }
 
     @Override
     public E update(ID id, E entity) throws ServiceException {
-        if (!store.containsKey(id)) {
-            throw new ServiceException(ErrorCode.NOT_FOUND, "Entity not found: " + id);
-        }
         store.put(id, entity);
         return entity;
     }

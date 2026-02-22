@@ -1,10 +1,17 @@
 package it.unicam.cs.hackhub.model.entity;
 
 import it.unicam.cs.hackhub.common.Document;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "attachments")
 public class Attachment extends Document {
-    private final String name;
-    private final String url;
+    private String name;
+    private String url;
+
+    public Attachment() {
+        super();
+    }
 
     public Attachment(String name, String url) {
         super();

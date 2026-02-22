@@ -6,7 +6,9 @@ import it.unicam.cs.hackhub.model.dto.EvaluationOutput;
 import it.unicam.cs.hackhub.model.entity.Evaluation;
 import it.unicam.cs.hackhub.model.entity.Submission;
 import it.unicam.cs.hackhub.model.entity.User;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EvaluationMapper implements ModelMapper<Evaluation, EvaluationInput, EvaluationOutput> {
 
     @Override

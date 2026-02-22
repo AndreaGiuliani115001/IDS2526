@@ -8,11 +8,14 @@ import it.unicam.cs.hackhub.model.entity.Hackathon;
 import it.unicam.cs.hackhub.model.entity.Submission;
 import it.unicam.cs.hackhub.model.entity.Team;
 
+import org.springframework.stereotype.Component;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class SubmissionMapper implements ModelMapper<Submission, SubmissionInput, SubmissionOutput> {
 
     @Override

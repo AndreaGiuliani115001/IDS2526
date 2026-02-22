@@ -13,11 +13,14 @@ import it.unicam.cs.hackhub.model.mapper.EvaluationMapper;
 import it.unicam.cs.hackhub.core.repository.EvaluationRepository;
 import it.unicam.cs.hackhub.core.repository.UserRepository;
 import it.unicam.cs.hackhub.core.state.HackathonStateService;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@org.springframework.stereotype.Service
+@RequiredArgsConstructor
 public class EvaluationService implements Service<Evaluation, EvaluationInput, EvaluationOutput> {
 
     private final EvaluationRepository evaluationRepository;
@@ -25,16 +28,6 @@ public class EvaluationService implements Service<Evaluation, EvaluationInput, E
     private final SubmissionService submissionService;
     private final HackathonStateService stateService;
     private final EvaluationMapper evaluationMapper;
-
-    public EvaluationService(EvaluationRepository evaluationRepository, UserRepository userRepository,
-                             SubmissionService submissionService, HackathonStateService stateService,
-                             EvaluationMapper evaluationMapper) {
-        this.evaluationRepository = evaluationRepository;
-        this.userRepository = userRepository;
-        this.submissionService = submissionService;
-        this.stateService = stateService;
-        this.evaluationMapper = evaluationMapper;
-    }
 
     @Override
     public EvaluationOutput create(EvaluationInput input) throws ServiceException {
