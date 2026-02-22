@@ -172,5 +172,3 @@ Strumenti utilizzati:
 * Giovanni Luongo – 118863
 
 ---
-
-Se vuoi posso farti una versione ancora più “pulita e minimal GitHub style” oppure una leggermente più “da 30 e lode accademica”.
